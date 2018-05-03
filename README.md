@@ -6,7 +6,8 @@ Keybindings:
 d: Delete last timer   
 r: Delete all times in timer (reset)         
 Configuration:   
-```0:title   
+```
+0:title   
 1:title   
 ...   
 ...   
