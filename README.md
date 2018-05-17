@@ -15,3 +15,7 @@ Configuration:
 
 0-9: session titles   
 Remember: NO SPACE AFTER COLON
+
+## Changelog
+1.0.0   
+* First version
