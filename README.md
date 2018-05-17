@@ -1,10 +1,10 @@
-# timer
+# timer 1.0.0
 A cubing timer   
 timer is a cubing timer made by me.         
 Keybindings:   
 0-9: Change session   
 d: Delete last timer   
-r: Delete all times in timer (reset)         
+r: Delete all times in session (reset)         
 Configuration:   
 ```
 0:title   
