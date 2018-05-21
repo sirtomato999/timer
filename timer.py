@@ -29,11 +29,12 @@ try:
 	config.close()
 except IOError:
 	print("config nonexsistent or has invalid syntax. Ignoring")
+        session_names = []
 
 
 print "Loading GUI and essential variables..."
 ### variables
-display         = pygame.display.set_mode([250,100])
+display         = pygame.display.set_mode([250,150])
 clock           = pygame.time.Clock()
 timer           = False
 time            = 0
@@ -42,6 +43,7 @@ time_font       = pygame.font.SysFont("Monospace", 60)
 time_font_blit  = time_font.render("0.00", True, (50,50,50))
 avg_font        = pygame.font.SysFont("Monospace", 18)
 avg2_font       = pygame.font.SysFont("Monospace", 18)
+last_5_font     = pygame.font.SysFont("Monospace", 18)
 title_font      = pygame.font.SysFont("Monospace", 24)
 try:
 	time_avg    = sum(session_lists[current_session]) / len(session_lists[current_session])
@@ -89,7 +91,7 @@ def save():
 			session_obj[i].write(str(x) + "\n")
 				
 while True:
-	pygame.draw.rect(display, [200,200,200], [0,0,250,100], 0) #clears screen
+	pygame.draw.rect(display, [200,200,200], [0,0,250,150], 0) #clears screen
 
 	for event in pygame.event.get(): #event loop
 		if event.type == pygame.QUIT:
@@ -123,14 +125,22 @@ while True:
 		time = time + 0.01
 		time_font_blit = time_font.render(convert_to_minutes(time),True, (50,50,50))
 	elif not timer:
+                title_font_blit = title_font.render(session_names[current_session].strip(),True, (50,50,50))
 		avg_font_blit = avg_font.render("ao5: " + convert_to_minutes(olympic_average(5)[0]), True, (50,50,50))
 		avg2_font_blit = avg2_font.render("ao12: " + convert_to_minutes(olympic_average(12)[0]), True, (50,50,50))
 
-		time_font_rect = time_font_blit.get_rect() #
-		avg_font_rect  = avg_font_blit.get_rect()  # get rects for placement of other text
+		time_font_rect = time_font_blit.get_rect()   #
+                title_font_rect = title_font_blit.get_rect() #
+		avg_font_rect  = avg_font_blit.get_rect()    # get rects for placement of other text
+                if not session_names[current_session] == '':
+                        display.blit(title_font_blit, [0, time_font_rect.height-3])
+                        display.blit(avg_font_blit, [0, time_font_rect.height-3+title_font_rect.height-3])
+		        display.blit(avg2_font_blit, [0, avg_font_rect.height-3+time_font_rect.height-3+title_font_rect.height-3])
+                else:
+                        display.blit(avg_font_blit, [0, time_font_rect.height-3])
+                        display.blit(avg2_font_blit,[0, time_font_rect.height-3+avg_font_rect.height-3])
+ 
 
-		display.blit(avg_font_blit, [0, time_font_rect.height-10])
-		display.blit(avg2_font_blit, [0, avg_font_rect.height-3+time_font_rect.height-10])
 		try:
 			time_avg = sum(session_lists[current_session]) / len(session_lists[current_session])
 		except ZeroDivisionError: 
