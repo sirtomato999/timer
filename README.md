@@ -18,4 +18,6 @@ Remember: NO SPACE AFTER COLON
 
 ## Changelog
 1.0.0   
-* First version
+* First git version   
+1.0.1   
+* Fixed title; had unused variables
