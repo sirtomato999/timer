@@ -25,7 +25,7 @@ for i in session_obj: #close readables
 print "Reading config..."
 try:
 	config = open("config.conf")
-	session_names = conf_read.read_config(config)
+	config_things = conf_read.read_config(config)
 	config.close()
 except IOError:
 	print("config nonexsistent or has invalid syntax. Ignoring")
@@ -61,6 +61,10 @@ def convert_to_minutes(seconds):
 	elif len(str(seconds).split('.')[0]) == 1:
 		return str(minutes) + ":0%.2f" % seconds
 
+def hex_to_rgb(hex_code):
+	return [int(hex_code[0:2], 16), int(hex_code[2:4], 16) \
+		, int(hex_code[4:6], 16)]
+
 def olympic_average(count):
 	"""count: int of items to average"""
 	countlist = session_lists[current_session][-count:-1]
@@ -91,7 +95,7 @@ def save():
 			session_obj[i].write(str(x) + "\n")
 				
 while True:
-	pygame.draw.rect(display, [200,200,200], [0,0,250,150], 0) #clears screen
+	pygame.draw.rect(display, hex_to_rgb(config_things[1]), [0,0,250,150], 0) #clears screen
 
 	for event in pygame.event.get(): #event loop
 		if event.type == pygame.QUIT:
@@ -112,7 +116,10 @@ while True:
 			elif event.key == pygame.K_9: current_session = 9
 			elif event.key == pygame.K_r: 
 				session_lists[current_session] = [0]
-			elif event.key == pygame.K_d: session_lists[current_session].pop()
+			elif event.key == pygame.K_d:
+				try:
+					session_lists[current_session].pop()
+				except: print("Session already empty!")
 			else:
 				if not timer:
 					time = 0.00
@@ -123,16 +130,16 @@ while True:
 
 	if timer: #adds time to timer if it is running
 		time = time + 0.01
-		time_font_blit = time_font.render(convert_to_minutes(time),True, (50,50,50))
-	elif not timer:
-                title_font_blit = title_font.render(session_names[current_session].strip(),True, (50,50,50))
-		avg_font_blit = avg_font.render("ao5: " + convert_to_minutes(olympic_average(5)[0]), True, (50,50,50))
-		avg2_font_blit = avg2_font.render("ao12: " + convert_to_minutes(olympic_average(12)[0]), True, (50,50,50))
+	time_font_blit = time_font.render(convert_to_minutes(time),True, hex_to_rgb(config_things[2]))
+	if not timer:
+                title_font_blit = title_font.render(config_things[0][current_session].strip(),True, hex_to_rgb(config_things[2]))
+		avg_font_blit = avg_font.render("ao5: " + convert_to_minutes(olympic_average(5)[0]), True, hex_to_rgb(config_things[2]))
+		avg2_font_blit = avg2_font.render("ao12: " + convert_to_minutes(olympic_average(12)[0]), True, hex_to_rgb(config_things[2]))
 
 		time_font_rect = time_font_blit.get_rect()   #
                 title_font_rect = title_font_blit.get_rect() #
 		avg_font_rect  = avg_font_blit.get_rect()    # get rects for placement of other text
-                if not session_names[current_session] == '':
+                if not config_things[current_session] == '':
                         display.blit(title_font_blit, [0, time_font_rect.height-3])
                         display.blit(avg_font_blit, [0, time_font_rect.height-3+title_font_rect.height-3])
 		        display.blit(avg2_font_blit, [0, avg_font_rect.height-3+time_font_rect.height-3+title_font_rect.height-3])

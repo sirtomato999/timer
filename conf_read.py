@@ -4,5 +4,11 @@ def read_config(obj):
     names = ['','','','','','','','','','']
     for line in lines:
         line_secs = line.split(":")
-        names[int(line_secs[0])-1] = line_secs[1]
-    return names
+	try:
+        	names[int(line_secs[0])-1] = line_secs[1]
+	except:
+		if line_secs[0] == "fg":
+			fg = line_secs[1]
+		elif line_secs[0] == "bg":
+			bg = line_secs[1]
+    return [names, bg, fg]

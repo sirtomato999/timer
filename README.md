@@ -21,3 +21,5 @@ Remember: NO SPACE AFTER COLON
 * First git version   
 1.0.1   
 * Fixed title; had unused variables
+1.1.1
+* Added custom colors
