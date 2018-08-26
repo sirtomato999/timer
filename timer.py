@@ -139,7 +139,8 @@ while True:
 		time_font_rect = time_font_blit.get_rect()   #
                 title_font_rect = title_font_blit.get_rect() #
 		avg_font_rect  = avg_font_blit.get_rect()    # get rects for placement of other text
-                if not config_things[current_session] == '':
+
+                if not session_lists[current_session] == '':
                         display.blit(title_font_blit, [0, time_font_rect.height-3])
                         display.blit(avg_font_blit, [0, time_font_rect.height-3+title_font_rect.height-3])
 		        display.blit(avg2_font_blit, [0, avg_font_rect.height-3+time_font_rect.height-3+title_font_rect.height-3])
