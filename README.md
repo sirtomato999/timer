@@ -1,4 +1,4 @@
-# timer 1.0.0
+# timer
 A cubing timer   
 timer is a cubing timer made by me.         
 Keybindings:   
