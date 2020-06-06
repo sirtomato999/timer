@@ -15,13 +15,3 @@ Configuration:
 
 0-9: session titles   
 Remember: NO SPACE AFTER COLON
-
-## Changelog
-1.0.0   
-* First git version
-
-1.0.1      
-* Fixed title; had unused variables
-
-1.0.2      
-* Added custom colors
